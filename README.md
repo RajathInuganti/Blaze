@@ -1,9 +1,12 @@
 # Compiler
 My (humble) attempt at building a compiler
 
-Flex is used for the Lexical Analysis phase.
-Bison is used for the parsing phase.
+Lexical Analysis phase uses Flex.
+Parsing - Syntactic Analysis phase uses Bison.
 C is the primary language used for creating this toy compiler.
+
+To install Flex: `brew install flex`
+To install Bison: `brew install bison`
 
 To build: enter `make build`.
 To test: enter `make run`
