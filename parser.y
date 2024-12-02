@@ -48,9 +48,10 @@ statement_list
 
 statement
     : declaration ';'
-    | function_declaration ';'
+    | function_declaration
     | function_call ';'
     | control_flow
+    | unary ';'
     | RETURN expression ';'
     | CONTINUE ';'
     | BREAK ';'
@@ -62,8 +63,6 @@ declaration
     : type_specifier IDENTIFIER
     | type_specifier IDENTIFIER '=' expression
     | IDENTIFIER '=' expression
-    | IDENTIFIER UNARY
-    | UNARY IDENTIFIER
     ;
 
 function_declaration
@@ -99,8 +98,8 @@ argument_list
 
 control_flow
     : IF '(' expression ')' '{' statement_list '}' else
-    | WHILE '(' expression ')' '{' statement_list '}'
-    | FOR '(' optional_expression ';' optional_expression ';' optional_expression ')' '{' statement_list '}'
+    | WHILE '(' relop ')' '{' statement_list '}'
+    | FOR '(' declaration ';' relop ';' unary ')' '{' statement_list '}'
     ;
 
 else
@@ -108,11 +107,44 @@ else
     |
     ;
 
-optional_expression
-    : expression
-    |
+expression
+    : arithmetic
+    | cop
+    | relop
+    | NOT expression
+    | '(' expression ')'
+    | function_call
+    | value
     ;
 
+unary
+    : IDENTIFIER UNARY
+    | UNARY IDENTIFIER
+    ;
+
+arithmetic
+    : expression ADD expression
+    | expression SUBTRACT expression
+    | expression MULTIPLY expression
+    | expression DIVIDE expression
+    ;
+
+relop
+    : expression LT expression
+    | expression GT expression
+    | expression LE expression
+    | expression GE expression
+    | expression EQ expression
+    | expression NE expression
+    ;
+
+cop
+    : expression AND expression
+    | expression OR expression
+    ;
+
+
+/*
 expression
     : expression ADD expression
     | expression SUBTRACT expression
@@ -130,7 +162,7 @@ expression
     | '(' expression ')'
     | function_call
     | value
-    ;
+    ; */
 
 value
     : NUMBER
@@ -145,7 +177,7 @@ value
 
 /* yacc error handler */
 void yyerror(char *s){
-    fprintf (stderr, "%s\n", s);
+    fprintf (stderr, "Error | Line: %d\n%s\n", yylineno, s);
 }
 
 int main(void){
