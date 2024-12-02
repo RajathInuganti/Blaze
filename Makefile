@@ -1,10 +1,7 @@
 
 
 build:
-		flex lexer.lex && gcc lex.yy.c
+		flex lexer.lex && bison -v -d parser.y && gcc -ll parser.tab.c
 
 run:
-		./a.out
-
-clean:
-		rm lex.yy.c a.out
+		./a.out<test.b
