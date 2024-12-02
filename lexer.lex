@@ -1,8 +1,11 @@
 /*** Definition Section with includes, statements, variables etc.
 that can be accessed inside yylex() and main() ***/
 %{
+    #include "parser.tab.h"
     int count = 0;
 %}
+
+%option yylineno
 
 alpha [a-zA-Z]
 digit [0-9]
@@ -14,51 +17,51 @@ Rules for creating automata
 ***/
 
 %%
-"int"       { printf("INT"); }
-"float"     { printf("FLOAT"); }
-"char"      { printf("CHAR"); }
-"void"      { printf("VOID"); }
+"printf"    { return PRINTF; }
+"scanf"     { return SCANF; }
+"int"       { return INT; }
+"float"     { return FLOAT; }
+"char"      { return CHAR; }
+"void"      { return VOID; }
 
-"for"       { printf("FOR"); }
-"while"     { printf("WHILE"); }
-"if"        { printf("IF"); }
-"else"      { printf("ELSE"); }
-"return"    { printf("RETURN"); }
-"continue"  { printf("CONTINUE"); }
-"switch"    { printf("SWITCH"); }
-"case"      { printf("CASE"); }
-"default"   { printf("DEFAULT"); }
-"break"     { printf("BREAK"); }
+"for"       { return FOR; }
+"while"     { return WHILE; }
+"if"        { return IF; }
+"else"      { return ELSE; }
+"return"    { return RETURN; }
+"continue"  { return CONTINUE; }
+"break"     { return BREAK; }
 
-"true"      { printf("TRUE"); }
-"false"     { printf("FALSE"); }
+"true"      { return TRUE; }
+"false"     { return FALSE; }
 
-[-]?{digit}+                { printf("NUMBER"); }
-[-]?{digit}+\.{digit}{1,6}  { printf("FLOATVAL"); }
-{alpha}({alpha}|{digit})*   { printf("IDENTIFIER"); }
-{unary}                     { printf("UNARY"); }
+[-]?{digit}+                { return NUMBER; }
+[-]?{digit}+\.{digit}{1,6}  { return FLOATVAL; }
+{alpha}({alpha}|{digit})*   { return IDENTIFIER; }
+{unary}                     { return UNARY; }
 
-"<="    { printf("LE"); }
-">="    { printf("GE"); }
-"=="    { printf("EQ"); }
-"!="    { printf("NE"); }
-">"	    { printf("GT"); }
-"<"	    { printf("LT"); }
-"&&"	{ printf("AND"); }
-"||"	{ printf("OR"); }
-"+"     { printf("ADD"); }
-"-"     { printf("SUBTRACT"); }
-"/"     { printf("DIVIDE"); }
-"*"     { printf("MULTIPLY"); }
+"<="    { return LE; }
+">="    { return GE; }
+"=="    { return EQ; }
+"!="    { return NE; }
+">"	    { return GT; }
+"<"	    { return LT; }
+"&&"	{ return AND; }
+"||"	{ return OR; }
+"!"     { return NOT; }
+"+"     { return ADD; }
+"-"     { return SUBTRACT; }
+"/"     { return DIVIDE; }
+"*"     { return MULTIPLY; }
 
 
-\/\/.*                      { printf("COMMENT"); }
-[ \t]*                      { printf("WHITESPACE"); }
-[\n]                        { printf("NEWLINE"); }
-.	                        { printf("RANDOM"); }
+\/\/.*  { ; }
+[ \t]*  { ; }
+[\n]    { count++; }
+.	    { return *yytext; }
 
-["].*["]    { printf("STR"); }
-['].[']     { printf("CHARACTER"); }
+["].*["]    { return STR; }
+['].[']     { return CHARACTER; }
 %%
 
 /*** Code Section which is compiled along with the
@@ -69,9 +72,6 @@ int yywrap(){
     return 1;
 }
 
-int main(int argc, char **argv){
-
-    yylex();
-
-    return 0;
-}
+/*** This article, by Anjaneya Tripathi, has been used as 
+a reference for creating the lexical analyzer:
+https://medium.com/codex/building-a-c-compiler-using-lex-and-yacc-446262056aaa ***/
