@@ -6,6 +6,7 @@
     #include <stdlib.h>
 
     #include "lex.yy.c"
+    #include "hash.h"
 
     void yyerror(char *s);
     int yylex();
