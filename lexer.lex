@@ -2,7 +2,6 @@
 that can be accessed inside yylex() and main() ***/
 %{
     #include "parser.tab.h"
-    int count = 0;
 %}
 
 %option yylineno
@@ -37,7 +36,7 @@ Rules for creating automata
 
 [-]?{digit}+                { return NUMBER; }
 [-]?{digit}+\.{digit}{1,6}  { return FLOATVAL; }
-{alpha}({alpha}|{digit})*   { return IDENTIFIER; }
+{alpha}({alpha}|{digit})*   { yylval.str = strdup(yytext); return IDENTIFIER; }
 {unary}                     { return UNARY; }
 
 "<="    { return LE; }
@@ -57,7 +56,7 @@ Rules for creating automata
 
 \/\/.*  { ; }
 [ \t]*  { ; }
-[\n]    { count++; }
+[\n]    { ; }
 .	    { return *yytext; }
 
 ["].*["]    { return STR; }
