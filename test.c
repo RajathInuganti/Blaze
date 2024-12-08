@@ -1,6 +1,6 @@
 int main() {
   printf("Hello, World!\n");
-  int i = 0;
+  int j = 0;
   for(int i; i < 10; i++) {
     printf("Hello, World!\n");
     if ( i > 5 ) {
