@@ -166,27 +166,6 @@ cop
     | expression OR expression
     ;
 
-
-/*
-expression
-    : expression ADD expression
-    | expression SUBTRACT expression
-    | expression MULTIPLY expression
-    | expression DIVIDE expression
-    | expression LT expression
-    | expression GT expression
-    | expression LE expression
-    | expression GE expression
-    | expression EQ expression
-    | expression NE expression
-    | expression AND expression
-    | expression OR expression
-    | NOT expression
-    | '(' expression ')'
-    | function_call
-    | value
-    ; */
-
 value
     : NUMBER
     | FLOATVAL
@@ -236,6 +215,7 @@ int main(void){
         entry *value = (entry *)it.value;
         printf("*----------Entry----------*:\n");
         printf("%s\n", value->keyword);
+        printf("%s\n", value->type);
         printf("%d\n", value->lineno);
         printf("*----------End of Entry----------*:\n");
         free(it.value);
