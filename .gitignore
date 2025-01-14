@@ -5,3 +5,4 @@ parser.tab.h
 lex.yy.c
 a.out
 a.out.dSYM
+.DS_Store
