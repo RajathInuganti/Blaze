@@ -11,8 +11,8 @@
 
 typedef struct Node Node;
 
-Node *newNode(char *token, int childCount, char **children);
+Node *newNode(char *token, int childCount);
 
 ErrorCode walk(Node *node);
 
-#endif //AST_H
+#endif

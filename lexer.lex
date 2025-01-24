@@ -16,42 +16,42 @@ Rules for creating automata
 ***/
 
 %%
-"printf"    { return PRINTF; }
-"scanf"     { return SCANF; }
-"int"       { return INT; }
-"float"     { return FLOAT; }
-"char"      { return CHAR; }
-"void"      { return VOID; }
+"printf"    { strcpy(yylval.obj.name, (yytext)); return PRINTF; }
+"scanf"     { strcpy(yylval.obj.name, (yytext)); return SCANF; }
+"int"       { strcpy(yylval.obj.name, (yytext)); return INT; }
+"float"     { strcpy(yylval.obj.name, (yytext)); return FLOAT; }
+"char"      { strcpy(yylval.obj.name, (yytext)); return CHAR; }
+"void"      { strcpy(yylval.obj.name, (yytext)); return VOID; }
 
-"for"       { return FOR; }
-"while"     { return WHILE; }
-"if"        { return IF; }
-"else"      { return ELSE; }
-"return"    { return RETURN; }
-"continue"  { return CONTINUE; }
-"break"     { return BREAK; }
+"for"       { strcpy(yylval.obj.name, (yytext)); return FOR; }
+"while"     { strcpy(yylval.obj.name, (yytext)); return WHILE; }
+"if"        { strcpy(yylval.obj.name, (yytext)); return IF; }
+"else"      { strcpy(yylval.obj.name, (yytext)); return ELSE; }
+"return"    { strcpy(yylval.obj.name, (yytext)); return RETURN; }
+"continue"  { strcpy(yylval.obj.name, (yytext)); return CONTINUE; }
+"break"     { strcpy(yylval.obj.name, (yytext)); return BREAK; }
 
-"true"      { return TRUE; }
-"false"     { return FALSE; }
+"true"      { strcpy(yylval.obj.name, (yytext)); return TRUE; }
+"false"     { strcpy(yylval.obj.name, (yytext)); return FALSE; }
 
-[-]?{digit}+                { return NUMBER; }
-[-]?{digit}+\.{digit}{1,6}  { return FLOATVAL; }
-{alpha}({alpha}|{digit})*   { yylval.str = strdup(yytext); return IDENTIFIER; }
-{unary}                     { return UNARY; }
+[-]?{digit}+                { strcpy(yylval.obj.name, (yytext)); return NUMBER; }
+[-]?{digit}+\.{digit}{1,6}  { strcpy(yylval.obj.name, (yytext)); return FLOATVAL; }
+{alpha}({alpha}|{digit})*   { strcpy(yylval.obj.name, (yytext)); return IDENTIFIER; }
+{unary}                     { strcpy(yylval.obj.name, (yytext)); return UNARY; }
 
-"<="    { return LE; }
-">="    { return GE; }
-"=="    { return EQ; }
-"!="    { return NE; }
-">"	    { return GT; }
-"<"	    { return LT; }
-"&&"	{ return AND; }
-"||"	{ return OR; }
-"!"     { return NOT; }
-"+"     { return ADD; }
-"-"     { return SUBTRACT; }
-"/"     { return DIVIDE; }
-"*"     { return MULTIPLY; }
+"<="    { strcpy(yylval.obj.name, (yytext)); return LE; }
+">="    { strcpy(yylval.obj.name, (yytext)); return GE; }
+"=="    { strcpy(yylval.obj.name, (yytext)); return EQ; }
+"!="    { strcpy(yylval.obj.name, (yytext)); return NE; }
+">"	    { strcpy(yylval.obj.name, (yytext)); return GT; }
+"<"	    { strcpy(yylval.obj.name, (yytext)); return LT; }
+"&&"	{ strcpy(yylval.obj.name, (yytext)); return AND; }
+"||"	{ strcpy(yylval.obj.name, (yytext)); return OR; }
+"!"     { strcpy(yylval.obj.name, (yytext)); return NOT; }
+"+"     { strcpy(yylval.obj.name, (yytext)); return ADD; }
+"-"     { strcpy(yylval.obj.name, (yytext)); return SUBTRACT; }
+"/"     { strcpy(yylval.obj.name, (yytext)); return DIVIDE; }
+"*"     { strcpy(yylval.obj.name, (yytext)); return MULTIPLY; }
 
 
 \/\/.*  { ; }
@@ -59,8 +59,8 @@ Rules for creating automata
 [\n]    { ; }
 .	    { return *yytext; }
 
-["].*["]    { return STR; }
-['].[']     { return CHARACTER; }
+["].*["]    { strcpy(yylval.obj.name, (yytext)); return STR; }
+['].[']     { strcpy(yylval.obj.name, (yytext)); return CHARACTER; }
 %%
 
 /*** Code Section which is compiled along with the

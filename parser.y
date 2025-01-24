@@ -5,8 +5,9 @@
     #include <stdio.h>
     #include <stdlib.h>
 
-    #include "lex.yy.c"
+    #include "ast.h"
     #include "hash.h"
+    #include "lex.yy.c"
 
     void yyerror(char *s);
     int yylex();
@@ -33,19 +34,27 @@
 %}
 
 %union {
-    char *str;
+    struct obj {
+        char name[100];
+        struct Node *node;
+    } obj;
 }
 
-%token PRINTF SCANF
-%token INT FLOAT CHAR VOID
-%token FOR WHILE IF ELSE RETURN CONTINUE BREAK
-%token TRUE FALSE
-%token NUMBER FLOATVAL UNARY
-%token LE GE EQ NE GT LT
-%token AND OR NOT
-%token ADD SUBTRACT DIVIDE MULTIPLY
-%token STR CHARACTER
-%token <str> IDENTIFIER
+%token <obj> PRINTF SCANF
+%token <obj> INT FLOAT CHAR VOID
+%token <obj> FOR WHILE IF ELSE RETURN CONTINUE BREAK
+%token <obj> TRUE FALSE
+%token <obj> NUMBER FLOATVAL UNARY
+%token <obj> LE GE EQ NE GT LT
+%token <obj> AND OR NOT
+%token <obj> ADD SUBTRACT DIVIDE MULTIPLY
+%token <obj> STR CHARACTER
+%token <obj> IDENTIFIER
+
+%type <obj> program statement_list statement
+%type <obj> declaration function_declaration function_call control_flow unary expression
+%type <obj> type_specifier parameter_list parameter argument_list
+%type <obj> relop else arithmetic cop value
 
 %start program
 
