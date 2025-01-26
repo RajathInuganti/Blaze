@@ -92,13 +92,13 @@ statement
     ;
 
 declaration
-    : type_specifier IDENTIFIER { put('I', $2); }
-    | type_specifier IDENTIFIER { put('I', $2); } '=' expression
+    : type_specifier IDENTIFIER //{ put('I', $2); }
+    | type_specifier IDENTIFIER /*{ put('I', $2); } */'=' expression
     | IDENTIFIER '=' expression
     ;
 
 function_declaration
-    : type_specifier IDENTIFIER { put('F', $2); } '(' parameter_list ')' '{' statement_list '}'
+    : type_specifier IDENTIFIER /*{ put('F', $2); }*/ '(' parameter_list ')' '{' statement_list '}'
     ;
 
 parameter_list
@@ -108,7 +108,7 @@ parameter_list
     ;
 
 parameter
-    : type_specifier IDENTIFIER { put('P', $2); }
+    : type_specifier IDENTIFIER /*{ put('P', $2); }*/
     ;
 
 type_specifier
